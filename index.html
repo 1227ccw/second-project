@@ -3,296 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2학년 2반 분실물 보관함</title>
+    <title> 스마트 메모장</title>
     <style>
         :root {
-            --primary-color: #4f46e5;
+            --primary: #4f46e5;
             --primary-hover: #4338ca;
-            --bg-color: #f8fafc;
+            --bg: #f8fafc;
             --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --border-color: #e2e8f0;
+            --text: #1e293b;
+            --border: #e2e8f0;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.6;
             padding: 20px;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        .container { max-width: 900px; margin: 0 auto; }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        header h1 {
-            color: var(--primary-color);
-            font-size: 2rem;
-            margin-bottom: 5px;
-        }
-
-        header p {
-            color: #64748b;
-        }
+        header { text-align: center; margin-bottom: 25px; }
+        header h1 { color: var(--primary); font-size: 1.8rem; margin-bottom: 5px; }
+        header p { color: #64748b; font-size: 0.95rem; }
 
         .card {
             background: var(--card-bg);
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             margin-bottom: 20px;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-        }
-
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
         input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1rem;
+            width: 100%; padding: 10px; border: 1px solid var(--border);
+            border-radius: 8px; font-size: 1rem; font-family: inherit;
         }
-
         input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
+            outline: none; border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
 
         button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.2s;
+            background-color: var(--primary); color: white; border: none;
+            padding: 10px 20px; border-radius: 8px; font-size: 1rem;
+            font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s;
+        }
+        button:hover { background-color: var(--primary-hover); }
+
+        /* 카테고리별 섹션 스타일 */
+        .category-section { margin-bottom: 25px; }
+        .category-title {
+            font-size: 1.1rem; font-weight: 700; color: var(--primary);
+            margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+            border-bottom: 2px solid var(--border); padding-bottom: 5px;
         }
 
-        button:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .item-list {
+        .memo-grid {
             display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 15px;
         }
 
-        .item-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 10px;
+        .memo-card {
+            background: #fff; border: 1px solid var(--border);
+            border-radius: 8px; padding: 15px; position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            display: flex; flex-direction: column; justify-content: space-between;
         }
 
-        .item-info h3 {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
+        .memo-content h3 { font-size: 1rem; margin-bottom: 4px; }
+        .memo-summary {
+            font-size: 0.82rem; color: #64748b; margin-bottom: 10px;
+            background: #f1f5f9; padding: 4px 8px; border-radius: 4px;
+            display: inline-block; width: 100%;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .memo-body { font-size: 0.9rem; color: #334155; margin-bottom: 12px; white-space: pre-wrap; word-break: break-all; }
+        
+        .memo-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid #f1f5f9; padding-top: 8px; font-size: 0.75rem; color: #94a3b8;
         }
 
-        .item-info p {
-            color: #475569;
-            font-size: 0.9rem;
-            margin-bottom: 3px;
+        .btn-delete {
+            background: none; border: none; color: #ef4444; width: auto;
+            padding: 2px 6px; font-size: 0.8rem; cursor: pointer; font-weight: 500;
         }
-
-        .item-info .date {
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 650;
-            margin-bottom: 5px;
-        }
-
-        .badge.active {
-            background-color: #fee2e2;
-            color: #dc2626;
-        }
-
-        .badge.resolved {
-            background-color: #dcfce7;
-            color: #16a34a;
-        }
-
-        .actions {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .btn-sm {
-            padding: 5px 10px;
-            font-size: 0.8rem;
-            width: auto;
-        }
-
-        .btn-secondary {
-            background-color: #e2e8f0;
-            color: #475569;
-        }
-
-        .btn-secondary:hover {
-            background-color: #cbd5e1;
-        }
-
-        .btn-danger {
-            background-color: #ef4444;
-        }
-
-        .btn-danger:hover {
-            background-color: #dc2626;
-        }
+        .btn-delete:hover { color: #dc2626; background: #fee2e2; border-radius: 4px; }
+        
+        .empty-notice { color: #94a3b8; font-size: 0.9rem; padding: 10px 0; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <header>
-            <h1>🏫 2학년 2반 분실물 보관함</h1>
-            <p>교실에서 물건을 잃어버렸거나 주웠다면 여기에 등록해주세요!</p>
+            <h1>📝 2학년 2반 스마트 메모장</h1>
+            <p>내용을 적으면 인공지능처럼 핵심을 요약하고, 비슷한 주제별로 알아서 분류해 줍니다!</p>
         </header>
 
-        <!-- 분실물 등록 폼 -->
+        <!-- 메모 작성 폼 -->
         <div class="card">
-            <h2 style="font-size: 1.2rem; margin-bottom: 15px;">✨ 분실물 등록하기</h2>
-            <form id="lostForm">
+            <h2 style="font-size: 1.1rem; margin-bottom: 12px;">✨ 새 메모 남기기</h2>
+            <form id="memoForm">
                 <div class="form-group">
-                    <label for="itemName">물건 이름</label>
-                    <input type="text" id="itemName" placeholder="예: 무선 이어폰 케이스, 볼펜" required>
+                    <label for="memoTitle">제목</label>
+                    <input type="text" id="memoTitle" placeholder="예: 준비물 안내, 수학 숙제" required>
                 </div>
                 <div class="form-group">
-                    <label for="itemLocation">발견 장소 / 특징</label>
-                    <input type="text" id="itemLocation" placeholder="예: 칠판 앞 모퉁이 / 검은색" required>
+                    <label for="memoText">내용 (자세히 적어주세요)</label>
+                    <textarea id="memoText" rows="3" placeholder="예: 내일 미술 시간에 쓸 물감과 색연필을 꼭 챙겨와야 합니다." required></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="itemAuthor">등록자 (이름 또는 번호)</label>
-                    <input type="text" id="itemAuthor" placeholder="예: 2번 김철수" required>
-                </div>
-                <button type="submit">등록하기</button>
+                <button type="submit">스마트 메모 등록하기</button>
             </form>
         </div>
 
-        <!-- 분실물 목록 -->
+        <!-- 분류된 메모 목록 영역 -->
         <div class="card">
-            <h2 style="font-size: 1.2rem; margin-bottom: 15px;">📋 등록된 분실물 목록</h2>
-            <div id="itemList" class="item-list">
-                <!-- 자바스크립트로 동적 생성됨 -->
+            <h2 style="font-size: 1.1rem; margin-bottom: 15px;">📂 카테고리별 메모 모음</h2>
+            <div id="categoryContainer">
+                <!-- 자바스크립트로 카테고리 섹션들이 동적 생성됨 -->
             </div>
         </div>
     </div>
 
     <script>
-        // 로컬스토리지에서 데이터 불러오기 (새로고침해도 유지됨)
-        let items = JSON.parse(localStorage.getItem('class_lost_items')) || [];
+        // 로컬스토리지 연동 (새로고침해도 유지)
+        let memos = JSON.parse(localStorage.getItem('smart_memos')) || [];
 
-        const form = document.getElementById('lostForm');
-        const itemList = document.getElementById('itemList');
+        const form = document.getElementById('memoForm');
+        const categoryContainer = document.getElementById('categoryContainer');
 
-        function saveAndRender() {
-            localStorage.setItem('class_lost_items', JSON.stringify(items));
-            renderItems();
+        // 스마트 분석 함수 (키워드 기반 자동 분류 및 요약)
+        function analyzeMemo(title, text) {
+            const combined = (title + " " + text).toLowerCase();
+            let category = "기타 📌";
+
+            if (combined.includes('숙제') || combined.includes('과제') || combined.includes('공부') || combined.includes('시험') || combined.includes('책')) {
+                category = "학습/과제 📚";
+            } else if (combined.includes('준비물') || combined.includes('사물함') || combined.includes('물건') || combined.includes('가져')) {
+                category = "준비물/물건 🎒";
+            } else if (combined.includes('청소') || combined.includes('당번') || combined.includes('우유') || combined.includes('급식')) {
+                category = "학급/청소 🧹";
+            } else if (combined.includes('행사') || combined.includes('축제') || combined.includes('체육') || combined.includes('소풍') || combined.includes('시간')) {
+                category = "학교행사/일정 🗓️";
+            }
+
+            // 50자 이내로 요약 (내용의 첫 문장 또는 핵심 추출)
+            let summary = text.length > 45 ? text.substring(0, 45) + "..." : text;
+
+            return { category, summary };
         }
 
-        function renderItems() {
-            itemList.innerHTML = '';
+        function saveAndRender() {
+            localStorage.setItem('smart_memos', JSON.stringify(memos));
+            renderMemos();
+        }
 
-            if (items.length === 0) {
-                itemList.innerHTML = '<p style="text-align: center; color: #94a3b8; padding: 20px;">등록된 분실물이 없습니다. 🎉</p>';
+        function renderMemos() {
+            categoryContainer.innerHTML = '';
+
+            if (memos.length === 0) {
+                categoryContainer.innerHTML = '<p class="empty-notice" style="text-align: center;">작성된 메모가 없습니다. 첫 메모를 남겨보세요! 🎉</p>';
                 return;
             }
 
-            items.forEach((item, index) => {
-                const itemCard = document.createElement('div');
-                itemCard.className = 'item-card';
-
-                const statusBadge = item.resolved 
-                    ? '<span class="badge resolved">주인 찾음 ✅</span>' 
-                    : '<span class="badge active">찾는 중 🔍</span>';
-
-                itemCard.innerHTML = `
-                    <div class="item-info">
-                        ${statusBadge}
-                        <h3>${item.name}</h3>
-                        <p>📍 위치/특징: ${item.location}</p>
-                        <p>👤 등록자: ${item.author}</p>
-                        <span class="date">${item.date}</span>
-                    </div>
-                    <div class="actions">
-                        <button class="btn-sm btn-secondary" onclick="toggleStatus(${index})">
-                            ${item.resolved ? '다시 찾는 중으로' : '찾아줌완료'}
-                        </button>
-                        <button class="btn-sm btn-danger" onclick="deleteItem(${index})">삭제</button>
-                    </div>
-                `;
-                itemList.appendChild(itemCard);
+            // 카테고리별로 그룹화
+            const grouped = {};
+            memos.forEach((memo, index) => {
+                if (!grouped[memo.category]) {
+                    grouped[memo.category] = [];
+                }
+                grouped[memo.category].push({ ...memo, originalIndex: index });
             });
+
+            // 그룹별로 HTML 생성
+            for (const [catName, catMemos] of Object.entries(grouped)) {
+                const section = document.createElement('div');
+                section.className = 'category-section';
+
+                let cardsHtml = '';
+                catMemos.forEach(m => {
+                    cardsHtml += `
+                        <div class="memo-card">
+                            <div class="memo-content">
+                                <h3>${escapeHtml(m.title)}</h3>
+                                <span class="memo-summary">💡 요약: ${escapeHtml(m.summary)}</span>
+                                <div class="memo-body">${escapeHtml(m.text)}</div>
+                            </div>
+                            <div class="memo-footer">
+                                <span>${m.date}</span>
+                                <button class="btn-delete" onclick="deleteMemo(${m.originalIndex})">삭제</button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                section.innerHTML = `
+                    <div class="category-title">${catName} (${catMemos.length})</div>
+                    <div class="memo-grid">${cardsHtml}</div>
+                `;
+                categoryContainer.appendChild(section);
+            }
+        }
+
+        // 보안용 문자열 이스케이프
+        function escapeHtml(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
         }
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            const newItem = {
-                name: document.getElementById('itemName').value,
-                location: document.getElementById('itemLocation').value,
-                author: document.getElementById('itemAuthor').value,
-                date: new Date().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                resolved: false
+            const title = document.getElementById('memoTitle').value;
+            const text = document.getElementById('memoText').value;
+            
+            // 분석 기능 적용
+            const analysis = analyzeMemo(title, text);
+
+            const newMemo = {
+                title,
+                text,
+                category: analysis.category,
+                summary: analysis.summary,
+                date: new Date().toLocaleDateString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
             };
 
-            items.unshift(newItem); // 최신글이 위로 오도록
+            memos.unshift(newMemo); // 최신글이 위로
             saveAndRender();
             form.reset();
         });
 
-        window.toggleStatus = function(index) {
-            items[index].resolved = !items[index].resolved;
-            saveAndRender();
-        }
-
-        window.deleteItem = function(index) {
-            if (confirm('이 분실물 기록을 삭제하시겠습니까?')) {
-                items.splice(index, 1);
+        window.deleteMemo = function(index) {
+            if (confirm('이 메모를 삭제하시겠습니까?')) {
+                memos.splice(index, 1);
                 saveAndRender();
             }
         }
 
-        // 초기 렌더링 실행
-        renderItems();
+        // 초기 실행
+        renderMemos();
     </script>
 </body>
 </html>
